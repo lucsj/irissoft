@@ -1,0 +1,63 @@
+Si vous êtes le créateur ou l'hôte d'une discussion (ce qui est généralement le cas si vous l'organisez), vous pouvez utiliser différentes commandes pour contrôler les membres de la discussion, sécuriser la discussion avec un mot de passe et effectuer d'autres tâches administratives.
+
+Pour afficher la liste des commandes disponibles, entrez simplement /help dans la discussion. Si vous participez à une discussion avec uniquement une autre personne, seules les options pertinentes s'affichent. Si vous participez à une discussion avec plusieurs personnes, /help permet d'afficher une liste plus complète de commandes pour la discussion. Si la liste n'apparaît pas, cela signifie que votre version de Skype n'est pas compatible.
+
+Important : assurez-vous toujours d'utiliser la dernière version de Skype. Certaines de ces commandes ne sont pas prises en charge dans les versions antérieures.
+
+Il n'est pas nécessaire d'insérer le texte suivant la commande entre crochets. Par exemple, la commande /topic [texte] peut être utilisée comme suit : /topic Ordre du jour de la réunion d'aujourd'hui.
+
+Voici la liste de toutes les commandes courantes et leurs descriptions : 
+
+Commande 			Description
+/add [Pseudo Skype] 		Ajoute un contact à la discussion. Par exemple, /add jean.de.nevers1 ajoute ce membre à la discussion.
+/alertson [texte] 		Vous permet d'indiquer ce qui doit apparaître dans une discussion pour que vous receviez une alerte. Par exemple, la commande /alertson Londres permet de vous alerter uniquement lorsque le mot « Londres » apparaît dans la conversation.
+/alertsoff 			Désactive les alertes de message.
+/clearpassword 			Supprime la protection par mot de passe.
+/find [texte] 			Recherche un texte donné dans la discussion. Par exemple, /find Charlie renvoie la première instance du mot « Charlie » dans la discussion.
+/get allowlist 			Affiche la liste des personnes qui ont accès à la discussion.
+/get banlist 			Affiche la liste des personnes bannies de la discussion.
+/get creator 			Affiche la personne qui a lancé la discussion.
+/get guidelines 		Affiche les règles de la discussion en cours.
+/get options 			Affiche les options actives pour la discussion en cours. Consultez la section sur les options associées à la commande /set ci-dessous pour découvrir les options disponibles.
+/get password_hint 		Affiche l'indice du mot de passe.
+/get role 			Affiche votre rôle dans la discussion.
+/get uri 			Crée un lien URL que d'autres personnes peuvent utiliser pour rejoindre la discussion de groupe.
+/golive 			Lance une conférence avec d'autres participants à la discussion.
+/info 				Indique le nombre de personnes dans la discussion et le nombre maximum autorisé.
+/kick [Pseudo Skype] 		Expulse un membre de la discussion. Par exemple, /kick jean.de.nevers1 expulse ce membre de la discussion.
+/kickban [Pseudo Skype] 	Expulse un membre de la discussion et l'empêche de participer à nouveau à la discussion. Par exemple, /kickban jean.de.nevers1 expulse ce membre de la discussion et l'empêche d'y participer de nouveau.
+/leave 				Ferme la discussion de groupe en cours.
+/me [texte] 			Votre nom s'affiche, suivi du texte que vous écrivez. Par exemple, /me travaille à la maison entraîne l'affichage de la phrase « travaille à la maison » à côté de votre nom dans la discussion. Vous pouvez utiliser cette commande pour envoyer un message sur votre activité ou votre rôle.
+/set allowlist [[+|-]masque] .. Désigne les membres qui ont accès à la discussion. Par exemple, /set allowlist jean.de.nevers1 autorise ce membre à rejoindre la discussion.
+/set banlist [[+|-]masque] .. 	Désigne les membres bannis de la discussion. Par exemple, /set banlist +jean.de.nevers1 interdit à ce membre de rejoindre la discussion. /set banlist -jean.de.nevers1 l'autorise à s'y joindre.
+/set guidelines [texte] 	Définit les règles de la discussion. Par exemple, /set guidelines Ne racontez pas la fin ! Pour les afficher dans la discussion, utilisez la commande /get guidelines.
+/set options [[+|-]indicateur] 	Définit les options de la discussion. Par exemple, /set options -JOINING_ENABLED désactive l'option JOINING_ENABLED, tandis que /set options +JOINERS_BECOME_APPLICANTS active l'option JOINERS_BECOME_APPLICANTS.
+  	
+
+Les indicateurs disponibles sont les suivants :
+
+HISTORY_DISCLOSED : 		les nouveaux participants peuvent afficher la discussion qui a eu lieu avant leur arrivée. Ils peuvent afficher un maximum de 400 messages ou l'équivalent de deux semaines de discussions, selon la première limite atteinte.
+JOINERS_BECOME_APPLICANTS : 	de nouveaux utilisateurs peuvent se joindre à la discussion, mais ne peuvent pas publier ni recevoir de messages tant qu'ils n'ont pas été autorisés par un CREATOR (CRÉATEUR) ou un MASTER (MAÎTRE) (voir le tableau ci-dessous pour en savoir plus sur les rôles).
+JOINERS_BECOME_LISTENERS : 	les nouveaux utilisateurs peuvent recevoir des messages, mais ne peuvent pas en publier tant qu'ils n'ont pas été promus au rôle de USER (UTILISATEUR).
+JOINING_ENABLED : 		de nouveaux utilisateurs peuvent rejoindre la discussion.
+TOPIC_AND_PIC_LOCKED_FOR_USERS :seul un utilisateur doté du rôle de CREATOR (CRÉATEUR) sera en mesure de modifier le thème ou l'image de la discussion.
+USERS_ARE_LISTENERS : 		les utilisateurs dotés du rôle USER (UTILISATEUR) ne sont pas en mesure de publier des messages.
+
+/set password [texte] 		Crée un mot de passe (aucun espace autorisé).
+/set password_hint [texte] 	Crée l'indice du mot de passe de la discussion.
+/setpassword [mot de passe] [indice du mot de passe] 	Crée un mot de passe et un indice de mot de passe pour la discussion.
+/setrole [Pseudo Skype] MASTER | HELPER | USER | LISTENER 	Vous permet de définir un rôle pour chaque membre de la discussion. Une description des rôles est fournie dans le tableau ci-dessous.
+/topic [texte] 			Modifie le thème de la discussion.
+/undoedit 			Annule la dernière modification de votre message.
+/whois [Pseudo Skype] 		Affiche des détails sur un membre de la discussion, par exemple son rôle actuel.
+
+Les rôles varient selon que vous avez lancé la discussion ou que le créateur ou l'hôte de la discussion vous a attribué un rôle ou non :
+Rôle 				Description
+Creator (Créateur) 		Membre qui a créé la discussion. Il ne peut y avoir qu'un seul créateur par discussion. Seul le créateur peut donner le rôle de maître à d'autres membres.
+Master (Maître) 		Également appelé « hôte de la discussion ». Un maître ne peut pas donner le rôle de maître à d'autres membres.
+Helper (Auxiliaire) 		Membre semi-privilégié. Un auxiliaire n'est pas affecté par l'option USERS_ARE_LISTENERS. Il ne peut pas promouvoir ni rétrograder d'autres membres.
+User (Utilisateur) 		Membre qui peut publier des messages dans la discussion.
+Listener (Auditeur) 		Membre pouvant seulement voir les messages, mais ne pouvant rien publier dans la discussion.
+Applicant (Candidat) 		Membre attendant d'être accepté dans la discussion. Remarque : une fois accepté dans la discussion, un membre ne peut pas être rétrogradé au rôle de candidat.
+
+ 

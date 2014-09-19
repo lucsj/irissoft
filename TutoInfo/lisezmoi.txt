@@ -1,0 +1,14 @@
+bienvenus dans le dossier de TutoInfo
+
+Ce petit programme n'en est qu'a ces babuciments, sont objcttif? créer un logiciel open source sous lissence GPL pour créer des tutoriels affin d'apprendre l'nformatique a des dificients visuel.
+
+Ce programme comme la plupart des programmes d'IrisSoft sont en AutoHotKey, un petit langage de programmation qui permet de créer très rapidemnt des programmes fonctionnels sous windows, , pour plus d'infos allez voir la page : www.autohotkey.com
+
+ce petit fichier servira aux développeurs, en atendant que le wiki et que track soient paramétrés correctement 
+
+il permettra aux développeurs d'échanger leurs idées et ce qu'ils ont ajougé au code. mais dit d'une manière différente que sur le serveur svn, per exemple expliquer pourquoi on a coder de cette façon plutôt qu'une autre etc...
+
+Merci de vôtre colaboration.
+
+Luc
+ 

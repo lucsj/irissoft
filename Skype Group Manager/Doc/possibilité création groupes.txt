@@ -1,0 +1,16 @@
+Groupe auditeur
+Groupe auditeur sans historique
+Groupe écriture possible
+Groupe écriture possible sans historique
+Groupe auditeur avec mot de passe
+Groupe auditeur avec mot de passe sans historique
+Groupe écriture possible avec mot de passe
+Groupe écriture possible avec mot de passe sans historique
+Groupe auditeur avec accès sécurisé
+Groupe auditeur avec accès sécurisé sans historique
+Groupe écriture possible avec accès sécurisé
+Groupe écriture possible avec accès sécurisé sans historique
+Groupe auditeur avec attente d’admission
+Groupe auditeur avec attente d’admission sans historique
+Groupe écriture possible avec attente d’admission
+Groupe écriture possible avec attente d’admission sans historique
