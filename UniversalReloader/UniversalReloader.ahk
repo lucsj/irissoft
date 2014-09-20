@@ -198,7 +198,6 @@ ShowConfig:
 
    Gui, 1:Show, w460 h340, Configuration
 
-
 Return
 
 ;---------------------------------------------------------------------------------------------
@@ -220,6 +219,8 @@ ValideConfig:
 Return
 
 ;---------------------------------------------------------------------------------------------
+
+; sub qui est lancé quand on appuy sur le bouton annuler dans la boîte de dialogue de configuration
 
 CloseConfig:
 
@@ -280,6 +281,7 @@ GetFromIniFile:
         IniRead GetNvdaDir, %ScriptIni%, Options, NvdaDir, False		; lis et met dans la variable GetNvdaDir le dossier oû nvda est installé
         IniRead GetNvdaAndJaws,  %ScriptIni%, Options, NvdaAndJaws, False	; lis l'option qui dit quel lecteur d'écran arrêté quand les deux fonctionnent
         IniRead GetJawsVersion, %ScriptIni%, Options, JawsVersion, False	; lis la version de jaws qui servira à relancer jaws
+        IniRead GetReloadKey, %ScriptIni%, Options, ReloadKey, False
     }
     else		; si le fichier ini n'a pas été trouvé
     {
