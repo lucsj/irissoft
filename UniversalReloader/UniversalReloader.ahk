@@ -54,10 +54,10 @@ Menu,Tray,Add,&Quitter,QuitApp
 
 ; initialise la boîte de dialogue de configuration 
 ; Créer le GUI principal avec une marge
-  Gui, Margin, 5, 5
+  Gui, 1:Margin, 5, 5
 
   ; Choix de la police d'affichage du logiciel et de sa taille
-  Gui, Font, S12 CDefault, Arial
+  Gui, 1:Font, S12 CDefault, Arial
 
   Gui, 1:Add, GroupBox, x40 y10 w350 h70, Dossier d'installation de NVDA
   Gui, 1:Add, Edit, vNvdaPath x60 y40 w220 h20, 
@@ -86,7 +86,7 @@ return
 ;------------------------------------------------------------------------------------------------
 
 ; Redémarrer un des deux lecteur d'écran en appuyant sur Ctrl+Alt+U
-
+; ^!u
 ^!u::
    Gosub SRReload
 return
@@ -281,7 +281,6 @@ GetFromIniFile:
         IniRead GetNvdaDir, %ScriptIni%, Options, NvdaDir, False		; lis et met dans la variable GetNvdaDir le dossier oû nvda est installé
         IniRead GetNvdaAndJaws,  %ScriptIni%, Options, NvdaAndJaws, False	; lis l'option qui dit quel lecteur d'écran arrêté quand les deux fonctionnent
         IniRead GetJawsVersion, %ScriptIni%, Options, JawsVersion, False	; lis la version de jaws qui servira à relancer jaws
-        IniRead GetReloadKey, %ScriptIni%, Options, ReloadKey, False
     }
     else		; si le fichier ini n'a pas été trouvé
     {
