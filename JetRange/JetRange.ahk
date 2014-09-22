@@ -24,7 +24,7 @@ Gui, 2:Margin, 5, 5
 ; Choix de la police d'affichage du logiciel et de sa taille
 Gui, 2:Font, S12 CDefault, Arial
 
-Gui, 2:Add, Text, x20 y10 h20 w380, Pour jouer vous devez ajouter un jeton dans une de vos 6 rangés choisissez laquelle ?
+Gui, 2:Add, Text, x20 y10 h40 w380, Pour jouer vous devez ajouter un jeton sur une `nde vos 6 rangés choisissez laquelle ?
 Gui, 2:Add, GroupBox, vTourJeu x20 y70 h70 w340, C'est à %joueur% de jouer
 Gui, 2:Add, Radio, vRange x30 y90 w40 h40, A  
 Gui, 2:Add, Radio, x80 y90 w40 h40, B  
