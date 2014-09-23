@@ -61,10 +61,10 @@ Return
 
 ;--------------------------------------------------------------------------------------
 
+; affiche la fenêtre du menu principal
+
 ShowMainWindows:
-
 	Gui, 1:Show, w240 h170, Menu principal
-
 Return
 
 ;---------------------------------------------------------------------------------------------------
@@ -72,6 +72,7 @@ Return
 ; Affiche la fenêtre de jeu 
 
 ShowPlayWindow:
+	goplay = 0
 	Gui, 2:Show, w400 h220, A vous de jouer Maintenant
 Return
 
@@ -81,74 +82,152 @@ Return
 
 Play:
 	Gui, 2:Submit
-	jetons -=1
-    if Range = 1
-    {
-    	A +=1
-   		Msgbox %joueur%, a ajouté un jeton sur la rangé A, il lui reste %jetons% jetons `n `n il y a %A% jetons sur la rangée A
-   		if a = 10
-   		{
-   			Msgbox vous avez terminé la rangé A
-   			a = 0
-   			jetons +=10
-   		}
-    }
-    else if Range = 2
-    {
-    	B +=1
-   		Msgbox %joueur%, a ajouté un jeton sur la rangé B, il lui reste %jetons% jetons `n `n il y a %B% jetons sur la rangée B
-   		if b = 10
-   		{
-   			Msgbox vous avez terminé la rangé B
-   			b = 0
-   			jetons +=10
-   		}
-    }
-    else if Range = 3
-    {
-    	C +=1
-   		Msgbox %joueur%, a ajouté un jeton sur la rangé C, il lui reste %jetons% jetons `n `n il y a %C% jetons sur la rangée C
-   		if c = 10
-   		{
-   			Msgbox vous avez terminé la rangé C
-   			c = 0
-   			jetons +=10
-   		}
-    }
-    else if Range = 4
-    {
-    	D +=1
-   		Msgbox %joueur% a ajouté un jeton sur la rangé D, il lui reste %jetons% jetons `n `n il y a %D% jetons sur la rangée D
-   		if d = 10
-   		{
-   			Msgbox vous avez terminé la rangé D
-   			d = 0
-   			jetons +=10
-   		}
-    }
-    else if Range = 5
-    {
-    	E +=1
-    	Msgbox %joueur%, a ajouté un jeton sur la rangé E, il lui reste %jetons% jetons `n `n il y a %E% jetons sur la rangée E
-   		if e = 10
-   		{
-   			Msgbox vous avez terminé la rangé E
-   			e = 0
-   			jetons +=10
-   		}
-    }
-    else if Range = 6
-    {
-    	F +=1
-   		Msgbox %joueur%, a ajouté un jeton sur la rangé F, il lui reste %jetons% jetons `n `n il y a %F% jetons sur la rangée F
-   		if a = 10
-   		{
-   			Msgbox vous avez terminé la rangé F
-   			f = 0
-   			jetons +=10
-   		}
-    }
-	Gosub ShowMainWindows	
+	goplay = 1
+	if dr = 1
+	{
+		dr = 2
+		jetons1 -=1
+    	if Range = 1
+	    {
+    		a1 +=1
+   			Msgbox %joueur%, a ajouté un jeton sur la rangé A, il lui reste %jetons1% jetons `n `n il y a %a1% jetons sur la rangée A
+			if a1 = 10
+   			{
+   				Msgbox vous avez terminé la rangé A et gagnez 10 jettons
+   				a1 = 0
+   				jetons1 +=10
+   			}
+	    }
+    	else if Range = 2
+	    {
+    		b1 +=1
+   			Msgbox %joueur%, a ajouté un jeton sur la rangé B, il lui reste %jetons1% jetons `n `n il y a %b1% jetons sur la rangée B
+	   		if b1 = 10
+   			{
+   				Msgbox vous avez terminé la rangé B et gagnez 10 jettons
+   				b1 = 0
+	   			jetons1 +=10
+	   		}
+	    }
+    	else if Range = 3
+	    {
+	    	c1 +=1
+	   		Msgbox %joueur%, a ajouté un jeton sur la rangé C, il lui reste %jetons1% jetons `n `n il y a %c1% jetons sur la rangée C
+	   		if c1 = 10
+   			{
+   				Msgbox vous avez terminé la rangé C et gagnez 10 jettons
+	   			c1 = 0
+	   			jetons1 +=10
+	   		}
+	    }
+	    else if Range = 4
+	    {
+	    	d1 +=1
+	   		Msgbox %joueur% a ajouté un jeton sur la rangé D, il lui reste %jetons1% jetons `n `n il y a %d1% jetons sur la rangée D
+	   		if d1 = 10
+	   		{
+	   			Msgbox vous avez terminé la rangé D
+	   			d1 = 0
+	   			jetons1 +=10
+	   		}
+    	}
+	    else if Range = 5
+    	{
+	    	e1 +=1
+	    	Msgbox %joueur%, a ajouté un jeton sur la rangé E, il lui reste %jetons1% jetons `n `n il y a %e1% jetons sur la rangée E
+	   		if e1 = 10
+	   		{
+	   			Msgbox vous avez terminé la rangé E et gagnez 10 jettons
+	   			e1 = 0
+	   			jetons1 +=10
+	   		}
+	    }
+	    else if Range = 6
+	    {
+	    	f1 +=1
+	   		Msgbox %joueur%, a ajouté un jeton sur la rangé F, il lui reste %jetons1% jetons `n `n il y a %f1% jetons sur la rangée F
+	   		if f1 = 10
+	   		{
+	   			Msgbox vous avez terminé la rangé F
+	   			f1 = 0
+	   			jetons1 +=10
+	   		}
+	    }
+		joueur = %joueur2%
+	}
+	else if dr = 2
+	{
+		dr = 1
+		jetons2 -=1
+    	if Range = 1
+	    {
+    		a2 +=1
+   			Msgbox %joueur%, a ajouté un jeton sur la rangé A, il lui reste %jetons2% jetons `n `n il y a %a2% jetons sur la rangée A
+			if a2 = 10
+   			{
+   				Msgbox vous avez terminé la rangé A et gagnez 10 jettons
+   				a2 = 0
+   				jetons2 +=10
+   			}
+	    }
+    	else if Range = 2
+	    {
+    		b2 +=1
+   			Msgbox %joueur%, a ajouté un jeton sur la rangé B, il lui reste %jetons2% jetons `n `n il y a %b2% jetons sur la rangée B
+	   		if b2 = 10
+   			{
+   				Msgbox vous avez terminé la rangé B et gagnez 10 jettons
+   				b2 = 0
+	   			jetons2 +=10
+	   		}
+	    }
+    	else if Range = 3
+	    {
+	    	c2 +=1
+	   		Msgbox %joueur%, a ajouté un jeton sur la rangé C, il lui reste %jetons2% jetons `n `n il y a %c2% jetons sur la rangée C
+	   		if c2 = 10
+   			{
+   				Msgbox vous avez terminé la rangé C et gagnez 10 jettons
+	   			c2 = 0
+	   			jetons2 +=10
+	   		}
+	    }
+	    else if Range = 4
+	    {
+	    	d2 +=1
+	   		Msgbox %joueur% a ajouté un jeton sur la rangé D, il lui reste %jetons2% jetons `n `n il y a %d2% jetons sur la rangée D
+	   		if d2 = 10
+	   		{
+	   			Msgbox vous avez terminé la rangé D
+	   			d2 = 0
+	   			jetons2 +=10
+	   		}
+    	}
+	    else if Range = 5
+    	{
+	    	e2 +=1
+	    	Msgbox %joueur%, a ajouté un jeton sur la rangé E, il lui reste %jetons2% jetons `n `n il y a %e2% jetons sur la rangée E
+	   		if e2 = 10
+	   		{
+	   			Msgbox vous avez terminé la rangé E et gagnez 10 jettons
+	   			e2 = 0
+	   			jetons2 +=10
+	   		}
+	    }
+	    else if Range = 6
+	    {
+	    	f2 +=1
+	   		Msgbox %joueur%, a ajouté un jeton sur la rangé F, il lui reste %jetons2% jetons `n `n il y a %f2% jetons sur la rangée F
+	   		if f2 = 10
+	   		{
+	   			Msgbox vous avez terminé la rangé F
+	   			f2 = 0
+	   			jetons2 +=10
+	   		}
+	    }
+		joueur = %joueur1%
+	}
+
 Return
 
 
@@ -158,23 +237,49 @@ Return
 
 Game:
 	Gui, 1:Submit
-	jetons = 50
-    joueur = Luc
-    a=0
-    b=0
-    c=0
-    d=0
-    e=0
-    f=0
-    GuiControl, 2:, TourJeu, C'est à %joueur% de jouer
+	jetons1 = 50
+	jetons2 = 50
+    joueur1 = Luc
+    Joueur2 = Jean
+    a1=0
+    b1=0
+    c1=0
+    d1=0
+    e1=0
+    f1=0
+    a2=0
+    b2=0
+    c2=0
+    d2=0
+    e2=0
+    f2=0
+	goplay = 1
+	dr = 1
+	joueur = %joueur1%
 	Loop,    
 	{
-		if jetons = 10
+		if jetons1 = 1
 		{
-			Msgbox Le jeu est terminé
+			Msgbox Bravo %joueur2% vous avez gagné, et %joueur1% a perdu 
+			Gosub ShowMainWindows	
 			break				; on sort de la boucle			
 		}
-		Gosub ShowPlayWindow
+		if jetons2 = 1
+		{
+			Msgbox Bravo %joueur1% vous avez gagné, et %joueur2% a perdu 
+			Gosub ShowMainWindows	
+			break				; on sort de la boucle			
+		}
+		if goplay = 1 
+		{
+			GuiControl, 2:, TourJeu, C'est à %joueur% de jouer
+			Gosub ShowPlayWindow
+		}
+		if goplay = 1 
+		{
+			GuiControl, 2:, TourJeu, C'est à %joueur% de jouer
+			Gosub ShowPlayWindow
+		}
 	}
 Return
 
