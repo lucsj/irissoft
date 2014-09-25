@@ -1,17 +1,17 @@
-Version = 0.3.1
+Version = 0.4
 NomDuScript =  UniversalReloader  %Version%
 
 ; début du programme
 
 ;--------------------------------------------------------------------------------------------------------------------
-; Nom :					    UniversalReloader
+; Nom :				UniversalReloader
 ; Language:       	Français
 ; Platform:         WinXP, vista, Seven
 ; Auteurs:          Luc S, 
-; AutoHotkey     		Version: 1.0.47
-; Version :				  0.3
-; Lissence :			  GPL 3
-; Description :		  Relanceur de lecteurs d'écran, tant qu'ils ne sont pas arrêté il fait plusieurs tentatives pour les arrêter
+; AutoHotkey     	Version: 1.0.47
+; Version :			0.3
+; Lissence :		GPL 3
+; Description :		Relanceur de lecteurs d'écran, tant qu'ils ne sont pas arrêté il fait plusieurs tentatives pour les arrêter
 ;
 ; Script Function:
 ;	Template script (you can customize this template by editing "ShellNew\Template.ahk" in your Windows folder)
@@ -38,12 +38,16 @@ NomDuScript =  UniversalReloader  %Version%
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
+	Gosub GetFromIniFile 		; lance la sub qui vas chercher les valeurs dans le fichier ini
+  Gosub Setkey            ; lance la sub qui affiche de manière compréhensible le raccourcis clavier pour relancer le lecteur d'écran
+
+
 ; création du menu dans la zone de notiffication
 Menu,Tray,Tip,%NomDuScript%
 Menu,Tray,NoStandard
 Menu,Tray,DeleteAll
 Menu,Tray,Icon,UniversalReloader.ico
-Menu,Tray,Add,&Relancer un lecteur d'écran `t Ctrl+Alt+U,SRReload
+Menu,Tray,Add,&Relancer un lecteur d'écran `t %ShowReloadKey%,SRReload
 Menu,Tray,Add,
 Menu,Tray,Add,&Configuration,ShowConfig
 Menu,Tray,Add,&Aide,HELP
@@ -68,11 +72,14 @@ Menu,Tray,Add,&Quitter,QuitApp
   Gui, 1:Add, GroupBox, x40 y170 w350 h70, Si jaws et nvda sont démarrés ?
   Gui, 1:Add, Text, x60 y200 w220 h20, Choisissez lequel arrêter :  
   Gui, 1:Add, ListBox, vSetNvdaAndJaws x300 y200 w60 h20 vscroll , nvda||jaws
-  Gui, 1:Add, Button, vSendConfig gValideConfig x90 y270 w120 h40 +Default, &Enregistrer 
-  Gui, 1:Add, Button, vCancelConfig gCloseConfig x240 y270 w120 h40, &Annuler
-
-
-	Gosub GetFromIniFile 		; lance la sub qui vas chercher les valeurs dans le fichier ini
+  Gui, 1:Add, GroupBox, x40 y250 w350 h70, Racourci de relance d'un lecteur d'écran 
+  Gui, 1:Add, CheckBox, vctrl x60 y280 w50 h20, Ctrl
+  Gui, 1:Add, CheckBox, valt x110 y280 w50 h20, Alt
+  Gui, 1:Add, CheckBox, vmaj x160 y280 w50 h20, Maj
+  Gui, 1:Add, CheckBox, vwin x210 y280 w50 h20, Win
+  Gui, 1:Add, Edit, vKey x270 y280 w60 h20,
+  Gui, 1:Add, Button, vSendConfig gValideConfig x90 y340 w120 h40 +Default, &Enregistrer 
+  Gui, 1:Add, Button, vCancelConfig gCloseConfig x240 y340 w120 h40, &Annuler
 
 
 
@@ -81,17 +88,6 @@ return
 
 ;------------------------------------------------------------------------------------------------
 ;
-; Racourcis clavier
-;
-;------------------------------------------------------------------------------------------------
-
-; Redémarrer un des deux lecteur d'écran en appuyant sur Ctrl+Alt+U
-; ^!u
-^!u::
-   Gosub SRReload
-return
-
-;---------------------------------------------------------------------------------------
 
 
 
@@ -101,6 +97,115 @@ return
 ;  subs
 ;
 ;-----------------------------------------------------------------------------
+
+; sub qui affiche le raccourcis clavier pour relancer le lecteur d'écran de manière compréhensive
+Setkey:
+
+    StringLen, KeyLen, GetReloadKey
+    if KeyLen = 3
+    {
+        StringMid, Key1, GetReloadKey, 1, 1
+        StringMid, Key2, GetReloadKey, 2, 1
+        StringMid, Key3, GetReloadKey, 3, 1
+        if Key1 = ^
+        {
+            kb1 = Ctrl
+        }
+        else if key1 = !
+        {
+            kb1 = Alt
+        }
+        else if key1 = #
+        {
+            kb1 = Win
+        }
+        Else if key1 = +
+        {
+            kb1 = Maj
+        }
+        if Key2 = ^
+        {
+            kb2 = Ctrl
+        }
+        else if key2 = !
+        {
+            kb2 = Alt
+        }
+        else if key2 = #
+        {
+            kb2 = Win
+        }
+        Else if key2 = +
+        {
+            kb2 = Maj
+        }
+        ShowReloadKey = %kb1%+%kb2%+%key3%
+    }
+    else if KeyLen = 4
+    {
+        StringMid, Key1, GetReloadKey, 1, 1
+        StringMid, Key2, GetReloadKey, 2, 1
+        StringMid, Key3, GetReloadKey, 3, 1
+        StringMid, Key4, GetReloadKey, 4, 1
+        if Key1 = ^
+        {
+            kb1 = Ctrl
+        }
+        else if key1 = !
+        {
+            kb1 = Alt
+        }
+        else if key1 = #
+        {
+            kb1 = Win
+        }
+        Else if key1 = +
+        {
+            kb1 = Maj
+        }
+        if Key2 = ^
+        {
+            kb2 = Ctrl
+        }
+        else if key2 = !
+        {
+            kb2 = Alt
+        }
+        else if key2 = #
+        {
+            kb2 = Win
+        }
+        Else if key2 = +
+        {
+            kb2 = Maj
+        }
+        if Key3 = ^
+        {
+            kb3 = Ctrl
+        }
+        else if key3 = !
+        {
+            kb3 = Alt
+        }
+        else if key3 = #
+        {
+            kb3 = Win
+        }
+        Else if key3 = +
+        {
+            kb3 = Maj
+        }
+        ShowReloadKey = %kb1%+%kb2%+%kb3%+%key4%
+    }
+
+
+
+
+
+Return
+
+
+;-----------------------------------------------------------------------------------
 
 ; sub principale qui vériffie quel lecteur d'écran est lancé et le redémarre
 
@@ -193,10 +298,104 @@ ShowConfig:
         GuiControl, 1: , SetNvdaAndJaws, nvda|jaws||
    }
    
-   ;GuiControl, 1: , SetNvdaAndJaws, %GetNvdaAndJaws%
+    StringLen, KeyLen, GetReloadKey
+    if KeyLen = 3
+    {
+        StringMid, Key1, GetReloadKey, 1, 1
+        StringMid, Key2, GetReloadKey, 2, 1
+        StringMid, Key3, GetReloadKey, 3, 1
+        if Key1 = ^
+        {
+            Guicontrol, 1: , Ctrl, 1        
+        }
+        else if key1 = !
+        {
+            Guicontrol, 1: , Alt, 1        
+        }
+        else if key1 = #
+        {
+            Guicontrol, 1: , Win, 1
+        }
+        Else if key1 = +
+        {
+            Guicontrol, 1: , Maj, 1
+        }
+        if Key2 = ^
+        {
+            Guicontrol, 1: , Ctrl, 1        
+        }
+        else if key2 = !
+        {
+            Guicontrol, 1: , Alt, 1        
+        }
+        else if key2 = #
+        {
+            Guicontrol, 1: , Win, 1
+        }
+        Else if key2 = +
+        {
+            Guicontrol, 1: , Maj, 1
+        }
+        GuiControl, 1: , Key, %key3%
+    }
+    else if KeyLen = 4
+    {
+        StringMid, Key1, GetReloadKey, 1, 1
+        StringMid, Key2, GetReloadKey, 2, 1
+        StringMid, Key3, GetReloadKey, 3, 1
+        StringMid, Key4, GetReloadKey, 4, 1
+        if Key1 = ^
+        {
+            Guicontrol, 1: , Ctrl, 1        
+        }
+        else if key1 = !
+        {
+            Guicontrol, 1: , Alt, 1        
+        }
+        else if key1 = #
+        {
+            Guicontrol, 1: , Win, 1
+        }
+        Else if key1 = +
+        {
+            Guicontrol, 1: , Maj, 1
+        }
+        if Key2 = ^
+        {
+            Guicontrol, 1: , Ctrl, 1        
+        }
+        else if key2 = !
+        {
+            Guicontrol, 1: , Alt, 1        
+        }
+        else if key2 = #
+        {
+            Guicontrol, 1: , Win, 1
+        }
+        Else if key2 = +
+        {
+            Guicontrol, 1: , Maj, 1
+        }
+        if Key3 = ^
+        {
+            Guicontrol, 1: , Ctrl, 1        
+        }
+        else if key3 = !
+        {
+            Guicontrol, 1: , Alt, 1        
+        }
+        else if key3 = #
+        {
+            Guicontrol, 1: , Win, 1
+        }
+        Else if key3 = +
+        {
+            Guicontrol, 1: , Maj, 1
+        }
+        GuiControl, 1: , Key, %key4%
+    }
 
-
-   Gui, 1:Show, w460 h340, Configuration
+   Gui, 1:Show, w460 h400, Configuration
 
 Return
 
@@ -206,12 +405,73 @@ Return
 
 ValideConfig:
 
-	Gui, 1:Submit
+	 Gui, 1:Submit
 
+  ;remettre les anciennes valeurs à zéro
+  GetCtrl =
+  GetAlt =
+  GetWin =
+  GetMaj =
+
+
+   if ctrl = 1
+   {
+      GetCtrl = ^   
+   }
+   if alt = 1
+   {
+      GetAlt = !
+   }
+   if win = 1
+   {
+     GetWin = #
+   }
+   if maj = 1
+   {
+     GetMaj = +
+   }
+   StringLen, KeyLen, Key
+   if KeyLen > 1
+   {
+       lettre = 1
+   }
+   GetReloadKey = %GetCtrl%%GetAlt%%GetWin%%GetMaj%%Key%
+   StringLen, KeyLen, GetReloadKey
+   if KeyLen > 4
+   {
+     touche = 1
+   }
+   Else if KeyLen < 3
+   {
+   		petit = 1
+   }
    GetNvdaDir = %NvdaPath%
    GetJawsVersion = %SetJawsVersion%
    GetNvdaAndJaws = %SetNvdaAndJaws%
-   
+   if lettre = 1
+   {
+       Msgbox, vous avez entré plus de deux lettre pour le racourcis clavier, il en faut qu'une, veuillez recommencer.    
+       lettre = 0
+       erreur = 1
+   }
+   if touche = 1
+   {
+       Msgbox, vous avez choisit plus de 4 touches pour votre raccourcis clavier, le programme ne prends pas en compte plus de 4 touches, veuillez recommencer   
+       touche = 0
+       erreur = 1
+   }
+   if petit = 1 
+   {
+   	   MsgBox Attention vous n'avez coché qu'une touche de racourcis il faut en cocher deux ou trois, veuillez recommencer.
+   	   petit = 0
+   	   erreur = 1
+   }   
+   if erreur = 1 
+   {
+       erreur = 0
+       Gosub ShowConfig
+       Return
+   }   
    Gosub SetToIniFile              ;lance la sub qui écrit les valeurs choisits dans le fichier ini
    Sleep 3000		; attends 3 segondes   
    Gosub GetFromIniFile            ;Recharge les valeurs à partir du nouveau fichier ini
@@ -253,9 +513,10 @@ SetToIniFile:
     ; vérification de l'existance du fichier ini
     IfExist, %ScriptIni%
     {
-        IniWrite %GetNvdaDir%, %ScriptIni%, Options, NvdaDir		; lis et met dans la variable GetNvdaDir le dossier oû nvda est installé
-        IniWrite %GetNvdaAndJaws%,  %ScriptIni%, Options, NvdaAndJaws	; lis l'option qui dit quel lecteur d'écran arrêté quand les deux fonctionnent
-        IniWrite %GetJawsVersion%, %ScriptIni%, Options, JawsVersion	; lis la version de jaws qui servira à relancer jaws
+        IniWrite %GetNvdaDir%, %ScriptIni%, Options, NvdaDir		; écrit  le dossier oû nvda est installé
+        IniWrite %GetNvdaAndJaws%,  %ScriptIni%, Options, NvdaAndJaws	; écrit l'option qui dit quel lecteur d'écran arrêté quand les deux fonctionnent
+        IniWrite %GetJawsVersion%, %ScriptIni%, Options, JawsVersion	; écrit la version de jaws qui sera relancé
+        IniWrite %GetReloadKey%, %ScriptIni%, Options, ReloadKey	; écrit le racourcis clavier qui servira à relancer le lecteur d'écran bloqué        
     }
     else		; si le fichier ini n'a pas été trouvé
     {
@@ -281,13 +542,14 @@ GetFromIniFile:
         IniRead GetNvdaDir, %ScriptIni%, Options, NvdaDir, False		; lis et met dans la variable GetNvdaDir le dossier oû nvda est installé
         IniRead GetNvdaAndJaws,  %ScriptIni%, Options, NvdaAndJaws, False	; lis l'option qui dit quel lecteur d'écran arrêté quand les deux fonctionnent
         IniRead GetJawsVersion, %ScriptIni%, Options, JawsVersion, False	; lis la version de jaws qui servira à relancer jaws
+        IniRead GetReloadKey, %ScriptIni%, Options, ReloadKey, False	; lis le racourcis clavier qui servira à relancer le lecteur d'écran bloqué
     }
     else		; si le fichier ini n'a pas été trouvé
     {
         MsgBox, Le fichier %ScriptIni% est introuvable le programme vas s'arrêter	; affiche un message 
         Gosub QuitApp							; lance la sub qui quitte le programme
     }
-
+    HotKey,%GetReloadKey%,SRReload
 Return
 
 ;---------------------------------------------------------------------------------------------
