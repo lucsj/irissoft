@@ -1,6 +1,8 @@
 # IrisSoft
 
-Bienvenue à tous lur le dépot Github d'IrisSoft, vous trouverez ici les sources de nos programmes suitants :
+Bienvenue à tous sur le dépot Github d'IrisSoft, qui créé des programmes accessibles, vous trouverez ici les sources de tous nos programmes suivants :
+
+Nos programmes ont étés écrits avec AutoHotkey 
 
 * CodeGenerator
 * DspDico
