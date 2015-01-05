@@ -1,4 +1,4 @@
-# IrisSoft
+## IrisSoft
 
 Bienvenue à tous sur le dépot Github d'IrisSoft, qui créé des programmes accessibles, vous trouverez ici les sources de tous nos programmes en voici la liste :
 
@@ -18,3 +18,4 @@ Pour en savoir plus venez visiter [notre site web](http://www.irissoft.fr.nf)
 
 Merci de votre visite sur notre dépot Github.
 
+Luc Segura

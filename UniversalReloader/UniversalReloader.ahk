@@ -38,8 +38,8 @@ NomDuScript =  UniversalReloader  %Version%
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-	Gosub GetFromIniFile 		; lance la sub qui vas chercher les valeurs dans le fichier ini
-  Gosub Setkey            ; lance la sub qui affiche de manière compréhensible le raccourcis clavier pour relancer le lecteur d'écran
+Gosub GetFromIniFile 		; lance la sub qui vas chercher les valeurs dans le fichier ini
+Gosub Setkey            ; lance la sub qui affiche de manière compréhensible le raccourcis clavier pour relancer le lecteur d'écran
 
 
 ; création du menu dans la zone de notiffication
@@ -472,9 +472,10 @@ ValideConfig:
        Gosub ShowConfig
        Return
    }   
-   Gosub SetToIniFile              ;lance la sub qui écrit les valeurs choisits dans le fichier ini
-   Sleep 3000		; attends 3 segondes   
-   Gosub GetFromIniFile            ;Recharge les valeurs à partir du nouveau fichier ini
+   Gosub SetToIniFile           ;lance la sub qui écrit les valeurs choisits dans le fichier ini
+   Sleep 3000					; attends 3 segondes   
+   Gosub GetFromIniFile         ;Recharge les valeurs à partir du nouveau fichier ini
+   Gosub Setkey            		; lance la sub qui affiche de manière compréhensible le raccourcis clavier pour relancer le lecteur d'écran
 
 Return
 
