@@ -1,4 +1,4 @@
-Version = 0.4
+Version = 0.5
 NomDuScript =  UniversalReloader  %Version%
 
 ; début du programme
@@ -9,7 +9,7 @@ NomDuScript =  UniversalReloader  %Version%
 ; Platform:         WinXP, vista, Seven
 ; Auteurs:          Luc S, 
 ; AutoHotkey     	Version: 1.0.47
-; Version :			0.3
+; Version :			0.5
 ; Lissence :		GPL 3
 ; Description :		Relanceur de lecteurs d'écran, tant qu'ils ne sont pas arrêté il fait plusieurs tentatives pour les arrêter
 ;
@@ -561,7 +561,20 @@ Loop,		; boucle sans fin
 	{
 		process, exist, nvda.exe		; vériffie si le processus nvda.exe existe
 		if (ErrorLevel = 0)			; si nvda à été arrêté avec succès
+		{
+		   if (A_Index > 1)
+		   {
+		      MajLog("nvda", "stopped", "UniversalReloader.log")
+		   }
 		   break				; on sort de la boucle
+		}
+		else     
+		{
+		   if (A_Index > 1)
+		   {
+		      MajLog("nvda", "nostopped", "UniversalReloader.log")
+		   }
+		}
 		
 		if (GetNvdaDir != False)		; si le dossier de nvda est  spéciffié dans le fichier ini
 		{
@@ -583,7 +596,21 @@ Loop,		; boucle sans fin
 	{
 		process, exist, jfw.exe	; vériffie si le processus jfw.exe existe 
 		if (ErrorLevel = 0)		; si jaws à été arrêté avec succès
+		{
+		   if (A_Index > 1)
+		   {
+		      MajLog("jaws", "stopped", "UniversalReloader.log")  ; on écrit dans le log que jaws s'est bien arrêté
+		   }
 		   break			; on sort de la boucle
+		}
+		else
+		{
+		   if (A_Index > 1)
+		   {
+		      MajLog("jaws", "nostopped", "UniversalReloader.log")
+		   }
+		}
+		   
 		process, Close, jfw.exe	; sinon on essai d'enlever jaws de la mémoire, tant qu'il n'est pas enlevé la boucle continue
 	}
 Return
@@ -642,6 +669,29 @@ QuitApp:
         ExitApp	; quitte le programme
 
 
+
+		
+		
+		
+		
+		
+		
+;------------------------------------------------------------------------------------------------------
+;
+;    Fonctions du programme
+;
+;------------------------------------------------------------------------------------------------
+
+; fonction qui écrit un fichier log dont le nom est passé en paramètre
+; exemple d'utilisation MajLog("nvda", "stoped", "UniversalReloader.log")
+
+
+		
+MajLog(id, state, logfile)
+{
+    FormatTime, vdate, ddMMyyyy, HH:mm:ss dd/MM/yyyy
+    FileAppend,%vdate% | %id% %state% `n , %logfile%
+}
 
 
 
