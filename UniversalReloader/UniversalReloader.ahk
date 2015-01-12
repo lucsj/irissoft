@@ -48,6 +48,7 @@ Menu,Tray,NoStandard
 Menu,Tray,DeleteAll
 Menu,Tray,Icon,UniversalReloader.ico
 Menu,Tray,Add,&Relancer un lecteur d'écran `t %ShowReloadKey%,SRReload
+Menu,Tray,Add,Relancer Mozilla Firefox `t Ctrl+Alt+F,ReloadFf
 Menu,Tray,Add,
 Menu,Tray,Add,&Configuration,ShowConfig
 Menu,Tray,Add,&Aide,HELP
@@ -88,8 +89,18 @@ return
 
 ;------------------------------------------------------------------------------------------------
 ;
+; Racourcis clavier du programme
+;
 
+; Redémarre Mozilla Firefox quand on appuye sur Ctrl+Alt+F
+^!f::
+	Gosub ReloadFf
+return
 
+; quitte le programme quand on appuie sur ctrl alt f4
+^!f4::
+	Gosub QuitApp
+return
 
 
 ;-----------------------------------------------------------------------------
@@ -540,6 +551,7 @@ GetFromIniFile:
     ; vérification de l'existance du fichier ini
     IfExist, %ScriptIni%
     {
+		IniRead GetFirefoxDir, %ScriptIni%, Options, FirefoxDir, False   ; lis le dossier de firefox dans le fichier ini
         IniRead GetNvdaDir, %ScriptIni%, Options, NvdaDir, False		; lis et met dans la variable GetNvdaDir le dossier oû nvda est installé
         IniRead GetNvdaAndJaws,  %ScriptIni%, Options, NvdaAndJaws, False	; lis l'option qui dit quel lecteur d'écran arrêté quand les deux fonctionnent
         IniRead GetJawsVersion, %ScriptIni%, Options, JawsVersion, False	; lis la version de jaws qui servira à relancer jaws
@@ -552,6 +564,54 @@ GetFromIniFile:
     }
     HotKey,%GetReloadKey%,SRReload
 Return
+
+;--------------------------------------------------------------------------------------------------------------------------
+; sub qui redémarre Firefox
+ReloadFf:
+
+process, exist, firefox.exe	; vériffie si le processus firefox.exe existe 
+if (ErrorLevel = 0)
+{
+	MsgBox, Firefox n'est pas en fonctionnement actuellement
+	Return
+}
+
+
+
+Loop,		; boucle sans fin
+	{
+		process, exist, firefox.exe	; vériffie si le processus firefox.exe existe 
+		if (ErrorLevel = 0)		; si firefox à été arrêté avec succès
+		{
+		   if (A_Index > 1)  ; ajoute les informations au log si ça fait plus d'une fois qu'on tente d'arrêter firefox
+		   {
+		      MajLog("firefox", "stopped", "UniversalReloader.log")  ; on écrit dans le log que firefox s'est bien arrêté
+		   }
+		   break			; on sort de la boucle
+		}
+		else
+		{
+		   if (A_Index > 1)  ; ajoute les informations au log sauf la première tentative d'arrêt 
+		   {
+		      MajLog("firefox", "nostopped", "UniversalReloader.log")   ; ajoute au log que firefox n'as pas été arrêté
+		   }
+		}
+		process, Close, firefox.exe	; on essai d'enlever firefox de la mémoire, tant qu'il n'est pas enlevé la boucle continue
+	}
+
+	SoundPlay, ding.wav					; joue un son système
+	if (GetFirefoxDir != False)			; si le dossier de firefox est spéciffié dans le fichier ini
+	{
+	     Run %GetFirefoxDir%\firefox.exe			; exécute le fichier exe de nvda à partir du dossier spécifié dans le fichier ini
+	}
+	Else						; si le dossier n'est pas spéciffié dans le fichier ini
+	{
+	     Run C:\Program Files (x86)\Mozilla Firefox\firefox.exe			; exécute le fichier exe de nvda à partir du dossier spécifié dans le fichier ini
+	}
+	
+Return
+
+
 
 ;---------------------------------------------------------------------------------------------
 ; sub qui ferme nvda
