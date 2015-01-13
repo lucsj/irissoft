@@ -98,10 +98,7 @@ return
 ; Racourcis clavier du programme
 ;
 
-; Redémarre Mozilla Firefox quand on appuye sur Ctrl+Alt+F
-^!f::
-	Gosub ReloadFf
-return
+
 
 ; quitte le programme quand on appuie sur ctrl alt f4
 ^!f4::
@@ -467,6 +464,7 @@ GetFromIniFile:
         Gosub QuitApp							; lance la sub qui quitte le programme
     }
     HotKey,%GetReloadKey%,SRReload
+    HotKey,%GetReloadFfKey%,ReloadFf	
 Return
 
 ;--------------------------------------------------------------------------------------------------------------------------
