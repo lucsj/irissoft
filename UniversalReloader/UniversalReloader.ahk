@@ -39,16 +39,22 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 Gosub GetFromIniFile 		; lance la sub qui vas chercher les valeurs dans le fichier ini
-Gosub Setkey            ; lance la sub qui affiche de manière compréhensible le raccourcis clavier pour relancer le lecteur d'écran
+; Lancement d'une fonction qui retourne un raccourcis clavier de manière compréhensive pour l'affichage
+; renvoyer le racourcis clavier pour relancer jaws ou nvda affin de l'afficher dans le menu
+ShowReloadKey := GetShowKey(GetReloadKey)
+; renvoyer le racourcis clavier pour relancer firefox afin de l'aficher dans le menu
+ShowReloadFfKey := GetShowKey(GetReloadFfKey)
 
-
+ 
+ 
+ 
 ; création du menu dans la zone de notiffication
 Menu,Tray,Tip,%NomDuScript%
 Menu,Tray,NoStandard
 Menu,Tray,DeleteAll
 Menu,Tray,Icon,UniversalReloader.ico
 Menu,Tray,Add,&Relancer un lecteur d'écran `t %ShowReloadKey%,SRReload
-Menu,Tray,Add,Relancer Mozilla Firefox `t Ctrl+Alt+F,ReloadFf
+Menu,Tray,Add,Relancer Mozilla Firefox `t %ShowReloadFfKey%,ReloadFf
 Menu,Tray,Add,
 Menu,Tray,Add,&Configuration,ShowConfig
 Menu,Tray,Add,&Aide,HELP
@@ -109,111 +115,7 @@ return
 ;
 ;-----------------------------------------------------------------------------
 
-; sub qui affiche le raccourcis clavier pour relancer le lecteur d'écran de manière compréhensive
-Setkey:
 
-    StringLen, KeyLen, GetReloadKey
-    if KeyLen = 3
-    {
-        StringMid, Key1, GetReloadKey, 1, 1
-        StringMid, Key2, GetReloadKey, 2, 1
-        StringMid, Key3, GetReloadKey, 3, 1
-        if Key1 = ^
-        {
-            kb1 = Ctrl
-        }
-        else if key1 = !
-        {
-            kb1 = Alt
-        }
-        else if key1 = #
-        {
-            kb1 = Win
-        }
-        Else if key1 = +
-        {
-            kb1 = Maj
-        }
-        if Key2 = ^
-        {
-            kb2 = Ctrl
-        }
-        else if key2 = !
-        {
-            kb2 = Alt
-        }
-        else if key2 = #
-        {
-            kb2 = Win
-        }
-        Else if key2 = +
-        {
-            kb2 = Maj
-        }
-        ShowReloadKey = %kb1%+%kb2%+%key3%
-    }
-    else if KeyLen = 4
-    {
-        StringMid, Key1, GetReloadKey, 1, 1
-        StringMid, Key2, GetReloadKey, 2, 1
-        StringMid, Key3, GetReloadKey, 3, 1
-        StringMid, Key4, GetReloadKey, 4, 1
-        if Key1 = ^
-        {
-            kb1 = Ctrl
-        }
-        else if key1 = !
-        {
-            kb1 = Alt
-        }
-        else if key1 = #
-        {
-            kb1 = Win
-        }
-        Else if key1 = +
-        {
-            kb1 = Maj
-        }
-        if Key2 = ^
-        {
-            kb2 = Ctrl
-        }
-        else if key2 = !
-        {
-            kb2 = Alt
-        }
-        else if key2 = #
-        {
-            kb2 = Win
-        }
-        Else if key2 = +
-        {
-            kb2 = Maj
-        }
-        if Key3 = ^
-        {
-            kb3 = Ctrl
-        }
-        else if key3 = !
-        {
-            kb3 = Alt
-        }
-        else if key3 = #
-        {
-            kb3 = Win
-        }
-        Else if key3 = +
-        {
-            kb3 = Maj
-        }
-        ShowReloadKey = %kb1%+%kb2%+%kb3%+%key4%
-    }
-
-
-
-
-
-Return
 
 
 ;-----------------------------------------------------------------------------------
@@ -483,10 +385,11 @@ ValideConfig:
        Gosub ShowConfig
        Return
    }   
-   Gosub SetToIniFile           ;lance la sub qui écrit les valeurs choisits dans le fichier ini
-   Sleep 3000					; attends 3 segondes   
-   Gosub GetFromIniFile         ;Recharge les valeurs à partir du nouveau fichier ini
-   Gosub Setkey            		; lance la sub qui affiche de manière compréhensible le raccourcis clavier pour relancer le lecteur d'écran
+   Gosub SetToIniFile           						;lance la sub qui écrit les valeurs choisits dans le fichier ini
+   Sleep 3000											; attends 3 segondes   
+   Gosub GetFromIniFile        							; Recharge les valeurs à partir du nouveau fichier ini
+   ShowReloadKey := GetShowKey(GetReloadKey)        	; renvoyer le racourcis clavier pour relancer jaws ou nvda affin de l'afficher dans le menu
+   ShowReloadFfKey := GetShowKey(GetReloadFfKey)		; renvoyer le racourcis clavier pour relancer firefox afin de l'aficher dans le menu
 
 Return
 
@@ -556,6 +459,7 @@ GetFromIniFile:
         IniRead GetNvdaAndJaws,  %ScriptIni%, Options, NvdaAndJaws, False	; lis l'option qui dit quel lecteur d'écran arrêté quand les deux fonctionnent
         IniRead GetJawsVersion, %ScriptIni%, Options, JawsVersion, False	; lis la version de jaws qui servira à relancer jaws
         IniRead GetReloadKey, %ScriptIni%, Options, ReloadKey, False	; lis le racourcis clavier qui servira à relancer le lecteur d'écran bloqué
+        IniRead GetReloadFfKey, %ScriptIni%, Options, ReloadFfKey, False	; lis le racourcis clavier qui servira à relancer le lecteur d'écran bloqué		
     }
     else		; si le fichier ini n'a pas été trouvé
     {
@@ -753,5 +657,121 @@ MajLog(id, state, logfile)
     FileAppend,%vdate% | %id% %state% `n , %logfile%
 }
 
+;----------------------------------------------------------------------------------
+
+; fonction qui permet d'afficher de manière compréhensible un racourcis clavier
+; le racourcis à afficher est à envoyé en paramètre
+; exemple d'utilisation : ShowReloadKey := GetShowKey(%GetReloadKey%)
 
 
+GetShowKey(Key)
+{
+    StringLen, KeyLen, Key
+    if KeyLen = 3
+    {
+        StringMid, Key1, Key, 1, 1
+        StringMid, Key2, Key, 2, 1
+        StringMid, Key3, Key, 3, 1
+        if Key1 = ^
+        {
+            kb1 = Ctrl
+        }
+        else if key1 = !
+        {
+            kb1 = Alt
+        }
+        else if key1 = #
+        {
+            kb1 = Win
+        }
+        Else if key1 = +
+        {
+            kb1 = Maj
+        }
+        if Key2 = ^
+        {
+            kb2 = Ctrl
+        }
+        else if key2 = !
+        {
+            kb2 = Alt
+        }
+        else if key2 = #
+        {
+            kb2 = Win
+        }
+        Else if key2 = +
+        {
+            kb2 = Maj
+        }
+        ShowKey = %kb1%+%kb2%+%key3%
+    }
+    else if KeyLen = 4
+    {
+        StringMid, Key1, Key, 1, 1
+        StringMid, Key2, Key, 2, 1
+        StringMid, Key3, Key, 3, 1
+        StringMid, Key4, Key, 4, 1
+        if Key1 = ^
+        {
+            kb1 = Ctrl
+        }
+        else if key1 = !
+        {
+            kb1 = Alt
+        }
+        else if key1 = #
+        {
+            kb1 = Win
+        }
+        Else if key1 = +
+        {
+            kb1 = Maj
+        }
+        if Key2 = ^
+        {
+            kb2 = Ctrl
+        }
+        else if key2 = !
+        {
+            kb2 = Alt
+        }
+        else if key2 = #
+        {
+            kb2 = Win
+        }
+        Else if key2 = +
+        {
+            kb2 = Maj
+        }
+        if Key3 = ^
+        {
+            kb3 = Ctrl
+        }
+        else if key3 = !
+        {
+            kb3 = Alt
+        }
+        else if key3 = #
+        {
+            kb3 = Win
+        }
+        Else if key3 = +
+        {
+            kb3 = Maj
+        }
+        ShowKey = %kb1%+%kb2%+%kb3%+%key4%
+    }
+	Return ShowKey
+}
+
+
+
+
+
+
+;-------------------------------------------------------------------------------------------
+;
+;  fin des fonctions
+;
+;---------------------------------------------------------------------------------------------------
