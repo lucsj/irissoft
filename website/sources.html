@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>Sources - IrisSoft</title>
+	<link rel="stylesheet" type="text/css" href="css/mainstyle.css" />	
+</head>
+<body>
+		<div id="nav">
+			<ul>
+			<li><a href="#tabs">Aller au menu</a> </li>
+			<li><a href="#page">Aller au contenu</a> </li>
+			</ul>
+		</div>
+		<div id="baner">
+			<p>
+				<img src="img/Irissoft.png" alt="IrisSoft, Des Logiciels libres et accessibles" />
+			</p>		
+		</div>
+        <div id="tabs">
+      	<ul>
+				<li><a href="index.html"><span>Accueil</span></a></li>
+				<li><a href="about.html"><span>A propos</span></a></li>
+				<li id="current"><a href="sources.html"><span>Sources</span></a></li>
+				<li><a href="download.html"><span>Téléchargement</span></a></li>
+         </ul>
+         </div>
+   	  	 <div id="page">
+			<h1>Télécharger les sources des programmes</h1>
+			<p>Comme pour tout logiciel libre, il est possible de consulter les sources de chacuns de nos programmes, pour cela il y a deux solution :</p>
+			<h2>Le dépôt web contenant les sources</h2>
+			<p>Nous avons mis à vôtre disposition un dépôt web vous permettant de naviguer dans les sources, et de les télécharger, cependant elles sont mise à jour que de temps en temps,  voici le lien pour s'y rendre : <a href="http://download.tuxfamily.org/irissoft/sources/">Naviguer sur les sources d'IrisSoft</a></p>
+			<h2>Dépôt IrisSoft sur GitHub</h2>
+			<p>Pour télécharger nos sources à partir de github il vous faut installer le <a href="http://git-scm.com/download/win" target=_blank>logiciel git,</a> en suite rendez-vous dans le dossier où vous voulez mettre les sources puis ouvrez le menu contextuel et choisissez Git Bash Here, ce qui veut dire Git Bash ici, ce qui ouvrera une console à partir du dossier que vous avez précédament sélectionné</p>
+			<p>En suite entrez les deux lignes de commandes suivantes :
+			<p class="cmd">git init</p>
+			<p class="cmd">git clone https://github.com/lucsj/irissoft.git</p>
+			<p>Pour mettre à jour les sources vous entrerez ceci :</p>
+			<p class="cmd">git pull origin master</p>
+			<p>C'est tout pour l'utilisation de git affin d'avoir les sources des dernières versions  de nos programmes, mis à jour en direct pendant le développement de ces derniers.</p>
+		</div>
+</body>
+</html>
