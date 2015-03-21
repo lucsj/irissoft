@@ -57,6 +57,7 @@ Menu,Tray,Add,&Relancer un lecteur d'écran `t %ShowReloadKey%,SRReload
 Menu,Tray,Add,Relancer Mozilla Firefox `t %ShowReloadFfKey%,ReloadFf
 Menu,Tray,Add,
 Menu,Tray,Add,&Configuration `t Ctrl+Alt+C ,ShowConfig
+Menu,Tray,Add,&Editer le fichier log  `t Ctrl+Alt+L ,EditLogFile
 Menu,Tray,Add,&Aide,HELP
 Menu,Tray,Add,&A propos,ABOUT
 Menu,Tray,Add,
@@ -118,6 +119,10 @@ return
 	Gosub ShowConfig
 return
 
+; Editer le fichier log
+^!l::
+	Gosub EditLogFile
+return
 
 ;-----------------------------------------------------------------------------
 ;
@@ -651,6 +656,13 @@ Return
 ABOUT:
       MsgBox, %NomDuScript% : `n est une application qui permet de relancer Nvda ou Jaws si ils sont bloqués, `n ce petit programme sans prétention vous aidera à reprendre la main sur votre ordinateur quand il bloque `n  `n Merci d'avoir installer ce programme IrisSoft vous remercie.
 Return
+
+;------------------------------------------------------------------------------
+
+; affiche le fichier log
+EditLogFile:
+	Run, UniversalReloader.log
+return
 
 
 ;--------------------------------------------------------------------------------
