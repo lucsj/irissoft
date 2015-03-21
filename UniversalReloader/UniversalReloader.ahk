@@ -56,7 +56,7 @@ Menu,Tray,Icon,UniversalReloader.ico
 Menu,Tray,Add,&Relancer un lecteur d'écran `t %ShowReloadKey%,SRReload
 Menu,Tray,Add,Relancer Mozilla Firefox `t %ShowReloadFfKey%,ReloadFf
 Menu,Tray,Add,
-Menu,Tray,Add,&Configuration,ShowConfig
+Menu,Tray,Add,&Configuration `t Ctrl+Alt+C ,ShowConfig
 Menu,Tray,Add,&Aide,HELP
 Menu,Tray,Add,&A propos,ABOUT
 Menu,Tray,Add,
@@ -89,7 +89,6 @@ Menu,Tray,Add,&Quitter `t Ctrl+Alt+F4,QuitApp
   Gui, 1:Add, Edit, vKey x270 y298 w60 h20,
   Gui, 1:Add, Button, gValideConfig x90 y350 w120 h40 +Default, &Enregistrer 
   Gui, 1:Add, Button,  gCloseConfig x240 y350 w120 h40, &Annuler
-
   
   Gui, Tab, 2   ; deuxième onglet
   Gui, 1:Add, GroupBox, x40 y28 w350 h70, Dossier d'installation de Firefox
@@ -112,6 +111,11 @@ return
 ; quitte le programme quand on appuie sur ctrl alt f4
 ^!f4::
 	Gosub QuitApp
+return
+
+; Ouvre la boîte de dialogue de configuration
+^!c::
+	Gosub ShowConfig
 return
 
 
