@@ -1,4 +1,4 @@
-Version = 0.5
+Version = 0.5.1
 NomDuScript =  UniversalReloader  %Version%
 
 ; début du programme
@@ -60,7 +60,7 @@ Menu,Tray,Add,&Configuration,ShowConfig
 Menu,Tray,Add,&Aide,HELP
 Menu,Tray,Add,&A propos,ABOUT
 Menu,Tray,Add,
-Menu,Tray,Add,&Quitter,QuitApp
+Menu,Tray,Add,&Quitter `t Ctrl+Alt+F4,QuitApp
 
 
 ; initialise la boîte de dialogue de configuration 
@@ -613,7 +613,7 @@ Return
 ; Fonction qui affiche une boîte d'aide
 
 HELP:
-	MsgBox, Utilisation du programme : `n `n Pour relancer Jaws ou Nvda quand ils sont bloqués, `n appuyez sur : `n`n CTRL+alt+U `t le lectteur d'écran sera arrêté et relancé, `n `n Merci d'avoir installé Universal Reloader
+	MsgBox, Utilisation du programme : `n `n Pour relancer Jaws ou Nvda quand ils sont bloqués, `n appuyez sur : `n`n CTRL+alt+R (ou autre) `t le lectteur d'écran sera arrêté et relancé, `n `n Merci d'avoir installé Universal Reloader
 Return
 
 ; fonction qui affiche la boîte de dialogue a propos 
