@@ -1,4 +1,4 @@
-Version = 0.5
+Version = 0.5.1
 NomDuScript =  UniversalReloader  %Version%
 
 ; début du programme
@@ -39,22 +39,29 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 Gosub GetFromIniFile 		; lance la sub qui vas chercher les valeurs dans le fichier ini
-Gosub Setkey            ; lance la sub qui affiche de manière compréhensible le raccourcis clavier pour relancer le lecteur d'écran
+; Lancement d'une fonction qui retourne un raccourcis clavier de manière compréhensive pour l'affichage
+; renvoyer le racourcis clavier pour relancer jaws ou nvda affin de l'afficher dans le menu
+ShowReloadKey := GetShowKey(GetReloadKey)
+; renvoyer le racourcis clavier pour relancer firefox afin de l'aficher dans le menu
+ShowReloadFfKey := GetShowKey(GetReloadFfKey)
 
-
+ 
+ 
+ 
 ; création du menu dans la zone de notiffication
 Menu,Tray,Tip,%NomDuScript%
 Menu,Tray,NoStandard
 Menu,Tray,DeleteAll
 Menu,Tray,Icon,UniversalReloader.ico
 Menu,Tray,Add,&Relancer un lecteur d'écran `t %ShowReloadKey%,SRReload
-Menu,Tray,Add,Relancer Mozilla Firefox `t Ctrl+Alt+F,ReloadFf
+Menu,Tray,Add,Relancer Mozilla Firefox `t %ShowReloadFfKey%,ReloadFf
 Menu,Tray,Add,
-Menu,Tray,Add,&Configuration,ShowConfig
+Menu,Tray,Add,&Configuration `t Ctrl+Alt+C ,ShowConfig
+Menu,Tray,Add,&Editer le fichier log  `t Ctrl+Alt+L ,EditLogFile
 Menu,Tray,Add,&Aide,HELP
 Menu,Tray,Add,&A propos,ABOUT
 Menu,Tray,Add,
-Menu,Tray,Add,&Quitter,QuitApp
+Menu,Tray,Add,&Quitter `t Ctrl+Alt+F4,QuitApp
 
 
 ; initialise la boîte de dialogue de configuration 
@@ -64,24 +71,32 @@ Menu,Tray,Add,&Quitter,QuitApp
   ; Choix de la police d'affichage du logiciel et de sa taille
   Gui, 1:Font, S12 CDefault, Arial
 
-  Gui, 1:Add, GroupBox, x40 y10 w350 h70, Dossier d'installation de NVDA
-  Gui, 1:Add, Edit, vNvdaPath x60 y40 w220 h20, 
-  Gui, 1:Add, Button, gBrowsNvdaApp x290 y40 w90 h20, Parcourrir  
-  Gui, 1:Add, GroupBox, x40 y90 w350 h70, Choix de la version de jaws
-  Gui, 1:Add, Text, x60 y120 w220 h20, Choisissez la version de jaws :  
-  Gui, 1:Add, ListBox, vSetJawsVersion x300 y120 w60 h20 vscroll , 10||11|12|13|14|15
-  Gui, 1:Add, GroupBox, x40 y170 w350 h70, Si jaws et nvda sont démarrés ?
-  Gui, 1:Add, Text, x60 y200 w220 h20, Choisissez lequel arrêter :  
-  Gui, 1:Add, ListBox, vSetNvdaAndJaws x300 y200 w60 h20 vscroll , nvda||jaws
-  Gui, 1:Add, GroupBox, x40 y250 w350 h70, Racourci de relance d'un lecteur d'écran 
-  Gui, 1:Add, CheckBox, vctrl x60 y280 w50 h20, Ctrl
-  Gui, 1:Add, CheckBox, valt x110 y280 w50 h20, Alt
-  Gui, 1:Add, CheckBox, vmaj x160 y280 w50 h20, Maj
-  Gui, 1:Add, CheckBox, vwin x210 y280 w50 h20, Win
-  Gui, 1:Add, Edit, vKey x270 y280 w60 h20,
-  Gui, 1:Add, Button, vSendConfig gValideConfig x90 y340 w120 h40 +Default, &Enregistrer 
-  Gui, 1:Add, Button, vCancelConfig gCloseConfig x240 y340 w120 h40, &Annuler
-
+  Gui, 1:Add, tab, x0 y0 w350 h20,Lecteurs d'écran|Mozilla ; les onglets
+  Gui, tab, 1  ; premier onglet
+  Gui, 1:Add, GroupBox, x40 y28 w350 h70, Dossier d'installation de NVDA
+  Gui, 1:Add, Edit, vNvdaPath x60 y58 w220 h20, 
+  Gui, 1:Add, Button, gBrowsNvdaApp x290 y58 w90 h20, Parcourrir  
+  Gui, 1:Add, GroupBox, x40 y108 w350 h70, Choix de la version de jaws
+  Gui, 1:Add, Text, x60 y138 w220 h20, Choisissez la version de jaws :  
+  Gui, 1:Add, ListBox, vSetJawsVersion x300 y138 w60 h20 vscroll , 10||11|12|13|14|15
+  Gui, 1:Add, GroupBox, x40 y188 w350 h70, Si jaws et nvda sont démarrés ?
+  Gui, 1:Add, Text, x60 y210 w228 h20, Choisissez lequel arrêter :  
+  Gui, 1:Add, ListBox, vSetNvdaAndJaws x300 y218 w60 h20 vscroll , nvda||jaws
+  Gui, 1:Add, GroupBox, x40 y268 w350 h70, Racourci de relance d'un lecteur d'écran 
+  Gui, 1:Add, CheckBox, vctrl x60 y298 w50 h20, Ctrl
+  Gui, 1:Add, CheckBox, valt x110 y298 w50 h20, Alt
+  Gui, 1:Add, CheckBox, vmaj x160 y298 w50 h20, Maj
+  Gui, 1:Add, CheckBox, vwin x210 y298 w50 h20, Win
+  Gui, 1:Add, Edit, vKey x270 y298 w60 h20,
+  Gui, 1:Add, Button, gValideConfig x90 y350 w120 h40 +Default, &Enregistrer 
+  Gui, 1:Add, Button,  gCloseConfig x240 y350 w120 h40, &Annuler
+  
+  Gui, Tab, 2   ; deuxième onglet
+  Gui, 1:Add, GroupBox, x40 y28 w350 h70, Dossier d'installation de Firefox
+  Gui, 1:Add, Edit, vFirefoxPath x60 y58 w220 h20, 
+  Gui, 1:Add, Button, gBrowsFirefoxApp x290 y58 w90 h20, Parcourrir  
+  Gui, 1:Add, Button, gValideConfig x90 y350 w120 h40 +Default, &Enregistrer 
+  Gui, 1:Add, Button, gCloseConfig x240 y350 w120 h40, &Annuler
 
 
 return
@@ -92,16 +107,22 @@ return
 ; Racourcis clavier du programme
 ;
 
-; Redémarre Mozilla Firefox quand on appuye sur Ctrl+Alt+F
-^!f::
-	Gosub ReloadFf
-return
+
 
 ; quitte le programme quand on appuie sur ctrl alt f4
 ^!f4::
 	Gosub QuitApp
 return
 
+; Ouvre la boîte de dialogue de configuration
+^!c::
+	Gosub ShowConfig
+return
+
+; Editer le fichier log
+^!l::
+	Gosub EditLogFile
+return
 
 ;-----------------------------------------------------------------------------
 ;
@@ -109,111 +130,7 @@ return
 ;
 ;-----------------------------------------------------------------------------
 
-; sub qui affiche le raccourcis clavier pour relancer le lecteur d'écran de manière compréhensive
-Setkey:
 
-    StringLen, KeyLen, GetReloadKey
-    if KeyLen = 3
-    {
-        StringMid, Key1, GetReloadKey, 1, 1
-        StringMid, Key2, GetReloadKey, 2, 1
-        StringMid, Key3, GetReloadKey, 3, 1
-        if Key1 = ^
-        {
-            kb1 = Ctrl
-        }
-        else if key1 = !
-        {
-            kb1 = Alt
-        }
-        else if key1 = #
-        {
-            kb1 = Win
-        }
-        Else if key1 = +
-        {
-            kb1 = Maj
-        }
-        if Key2 = ^
-        {
-            kb2 = Ctrl
-        }
-        else if key2 = !
-        {
-            kb2 = Alt
-        }
-        else if key2 = #
-        {
-            kb2 = Win
-        }
-        Else if key2 = +
-        {
-            kb2 = Maj
-        }
-        ShowReloadKey = %kb1%+%kb2%+%key3%
-    }
-    else if KeyLen = 4
-    {
-        StringMid, Key1, GetReloadKey, 1, 1
-        StringMid, Key2, GetReloadKey, 2, 1
-        StringMid, Key3, GetReloadKey, 3, 1
-        StringMid, Key4, GetReloadKey, 4, 1
-        if Key1 = ^
-        {
-            kb1 = Ctrl
-        }
-        else if key1 = !
-        {
-            kb1 = Alt
-        }
-        else if key1 = #
-        {
-            kb1 = Win
-        }
-        Else if key1 = +
-        {
-            kb1 = Maj
-        }
-        if Key2 = ^
-        {
-            kb2 = Ctrl
-        }
-        else if key2 = !
-        {
-            kb2 = Alt
-        }
-        else if key2 = #
-        {
-            kb2 = Win
-        }
-        Else if key2 = +
-        {
-            kb2 = Maj
-        }
-        if Key3 = ^
-        {
-            kb3 = Ctrl
-        }
-        else if key3 = !
-        {
-            kb3 = Alt
-        }
-        else if key3 = #
-        {
-            kb3 = Win
-        }
-        Else if key3 = +
-        {
-            kb3 = Maj
-        }
-        ShowReloadKey = %kb1%+%kb2%+%kb3%+%key4%
-    }
-
-
-
-
-
-Return
 
 
 ;-----------------------------------------------------------------------------------
@@ -279,6 +196,7 @@ ShowConfig:
 
    ; affiche dans la boîte de dialogue les valeurs actuelles du fichier ini
    GuiControl, 1: , NvdaPath, %GetNvdaDir%
+   GuiControl, 1: , FirefoxPath, %GetFirefoxDir%
    if GetJawsVersion = 11
    {
       GuiControl, 1: , SetJawsVersion, 10|11||12|13|14|15   
@@ -457,6 +375,8 @@ ValideConfig:
    		petit = 1
    }
    GetNvdaDir = %NvdaPath%
+   GetFirefoxDir = %FirefoxPath%
+   
    GetJawsVersion = %SetJawsVersion%
    GetNvdaAndJaws = %SetNvdaAndJaws%
    if lettre = 1
@@ -483,10 +403,11 @@ ValideConfig:
        Gosub ShowConfig
        Return
    }   
-   Gosub SetToIniFile           ;lance la sub qui écrit les valeurs choisits dans le fichier ini
-   Sleep 3000					; attends 3 segondes   
-   Gosub GetFromIniFile         ;Recharge les valeurs à partir du nouveau fichier ini
-   Gosub Setkey            		; lance la sub qui affiche de manière compréhensible le raccourcis clavier pour relancer le lecteur d'écran
+   Gosub SetToIniFile           						;lance la sub qui écrit les valeurs choisits dans le fichier ini
+   Sleep 3000											; attends 3 segondes   
+   Gosub GetFromIniFile        							; Recharge les valeurs à partir du nouveau fichier ini
+   ShowReloadKey := GetShowKey(GetReloadKey)        	; renvoyer le racourcis clavier pour relancer jaws ou nvda affin de l'afficher dans le menu
+   ShowReloadFfKey := GetShowKey(GetReloadFfKey)		; renvoyer le racourcis clavier pour relancer firefox afin de l'aficher dans le menu
 
 Return
 
@@ -513,6 +434,18 @@ BrowsNvdaApp:
    
 Return
 
+;-------------------------------------------------------------------------------------------------------
+
+; Permet de choisir le dossier d'installation de Firefox en cliquant sur  le bouton parcourrir
+
+BrowsFirefoxApp:
+
+   FileSelectFolder, SetFirefoxPath, , 3
+   GuiControl, 1: , FirefoxPath, %SetFirefoxPath%
+   
+Return
+
+
 ;---------------------------------------------------------------------------------------------
 
 ; écrit les valeurs choisit dans le fichier ini
@@ -526,9 +459,11 @@ SetToIniFile:
     IfExist, %ScriptIni%
     {
         IniWrite %GetNvdaDir%, %ScriptIni%, Options, NvdaDir		; écrit  le dossier oû nvda est installé
+		IniWrite %GetFirefoxDir%, %ScriptIni%, Options, FirefoxPath		; écrit  le dossier oû nvda est installé
         IniWrite %GetNvdaAndJaws%,  %ScriptIni%, Options, NvdaAndJaws	; écrit l'option qui dit quel lecteur d'écran arrêté quand les deux fonctionnent
         IniWrite %GetJawsVersion%, %ScriptIni%, Options, JawsVersion	; écrit la version de jaws qui sera relancé
         IniWrite %GetReloadKey%, %ScriptIni%, Options, ReloadKey	; écrit le racourcis clavier qui servira à relancer le lecteur d'écran bloqué        
+		
     }
     else		; si le fichier ini n'a pas été trouvé
     {
@@ -556,6 +491,7 @@ GetFromIniFile:
         IniRead GetNvdaAndJaws,  %ScriptIni%, Options, NvdaAndJaws, False	; lis l'option qui dit quel lecteur d'écran arrêté quand les deux fonctionnent
         IniRead GetJawsVersion, %ScriptIni%, Options, JawsVersion, False	; lis la version de jaws qui servira à relancer jaws
         IniRead GetReloadKey, %ScriptIni%, Options, ReloadKey, False	; lis le racourcis clavier qui servira à relancer le lecteur d'écran bloqué
+        IniRead GetReloadFfKey, %ScriptIni%, Options, ReloadFfKey, False	; lis le racourcis clavier qui servira à relancer le lecteur d'écran bloqué		
     }
     else		; si le fichier ini n'a pas été trouvé
     {
@@ -563,6 +499,7 @@ GetFromIniFile:
         Gosub QuitApp							; lance la sub qui quitte le programme
     }
     HotKey,%GetReloadKey%,SRReload
+    HotKey,%GetReloadFfKey%,ReloadFf	
 Return
 
 ;--------------------------------------------------------------------------------------------------------------------------
@@ -711,7 +648,7 @@ Return
 ; Fonction qui affiche une boîte d'aide
 
 HELP:
-	MsgBox, Utilisation du programme : `n `n Pour relancer Jaws ou Nvda quand ils sont bloqués, `n appuyez sur : `n`n CTRL+alt+U `t le lectteur d'écran sera arrêté et relancé, `n `n Merci d'avoir installé Universal Reloader
+	MsgBox, Utilisation du programme : `n `n Pour relancer Jaws ou Nvda quand ils sont bloqués, `n appuyez sur : `n`n CTRL+alt+R (ou autre) `t le lectteur d'écran sera arrêté et relancé, `n `n Merci d'avoir installé Universal Reloader
 Return
 
 ; fonction qui affiche la boîte de dialogue a propos 
@@ -719,6 +656,13 @@ Return
 ABOUT:
       MsgBox, %NomDuScript% : `n est une application qui permet de relancer Nvda ou Jaws si ils sont bloqués, `n ce petit programme sans prétention vous aidera à reprendre la main sur votre ordinateur quand il bloque `n  `n Merci d'avoir installer ce programme IrisSoft vous remercie.
 Return
+
+;------------------------------------------------------------------------------
+
+; affiche le fichier log
+EditLogFile:
+	Run, UniversalReloader.log
+return
 
 
 ;--------------------------------------------------------------------------------
@@ -753,5 +697,121 @@ MajLog(id, state, logfile)
     FileAppend,%vdate% | %id% %state% `n , %logfile%
 }
 
+;----------------------------------------------------------------------------------
+
+; fonction qui permet d'afficher de manière compréhensible un racourcis clavier
+; le racourcis à afficher est à envoyé en paramètre
+; exemple d'utilisation : ShowReloadKey := GetShowKey(%GetReloadKey%)
 
 
+GetShowKey(Key)
+{
+    StringLen, KeyLen, Key
+    if KeyLen = 3
+    {
+        StringMid, Key1, Key, 1, 1
+        StringMid, Key2, Key, 2, 1
+        StringMid, Key3, Key, 3, 1
+        if Key1 = ^
+        {
+            kb1 = Ctrl
+        }
+        else if key1 = !
+        {
+            kb1 = Alt
+        }
+        else if key1 = #
+        {
+            kb1 = Win
+        }
+        Else if key1 = +
+        {
+            kb1 = Maj
+        }
+        if Key2 = ^
+        {
+            kb2 = Ctrl
+        }
+        else if key2 = !
+        {
+            kb2 = Alt
+        }
+        else if key2 = #
+        {
+            kb2 = Win
+        }
+        Else if key2 = +
+        {
+            kb2 = Maj
+        }
+        ShowKey = %kb1%+%kb2%+%key3%
+    }
+    else if KeyLen = 4
+    {
+        StringMid, Key1, Key, 1, 1
+        StringMid, Key2, Key, 2, 1
+        StringMid, Key3, Key, 3, 1
+        StringMid, Key4, Key, 4, 1
+        if Key1 = ^
+        {
+            kb1 = Ctrl
+        }
+        else if key1 = !
+        {
+            kb1 = Alt
+        }
+        else if key1 = #
+        {
+            kb1 = Win
+        }
+        Else if key1 = +
+        {
+            kb1 = Maj
+        }
+        if Key2 = ^
+        {
+            kb2 = Ctrl
+        }
+        else if key2 = !
+        {
+            kb2 = Alt
+        }
+        else if key2 = #
+        {
+            kb2 = Win
+        }
+        Else if key2 = +
+        {
+            kb2 = Maj
+        }
+        if Key3 = ^
+        {
+            kb3 = Ctrl
+        }
+        else if key3 = !
+        {
+            kb3 = Alt
+        }
+        else if key3 = #
+        {
+            kb3 = Win
+        }
+        Else if key3 = +
+        {
+            kb3 = Maj
+        }
+        ShowKey = %kb1%+%kb2%+%kb3%+%key4%
+    }
+	Return ShowKey
+}
+
+
+
+
+
+
+;-------------------------------------------------------------------------------------------
+;
+;  fin des fonctions
+;
+;---------------------------------------------------------------------------------------------------
