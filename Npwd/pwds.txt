@@ -1,0 +1,4 @@
+google.fr=google.ini
+facebook.com=facebook.ini
+lecoachminceurbio.com=coachminceur.txt
+hostinger.fr=hostinger.ini
