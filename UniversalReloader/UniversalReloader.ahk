@@ -221,7 +221,7 @@ ShowConfig:
    {
       GuiControl, 1: , SetJawsVersion, 10|11|12|13|14|15||16
    }
-   lse if GetJawsVersion = 16
+   else if GetJawsVersion = 16
    {
       GuiControl, 1: , SetJawsVersion, 10|11|12|13|14|15|16||
    }
