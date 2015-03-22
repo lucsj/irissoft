@@ -56,9 +56,9 @@ Menu,Tray,Icon,UniversalReloader.ico
 Menu,Tray,Add,&Relancer un lecteur d'écran `t %ShowReloadKey%,SRReload
 Menu,Tray,Add,Relancer Mozilla Firefox `t %ShowReloadFfKey%,ReloadFf
 Menu,Tray,Add,
-Menu,Tray,Add,&Configuration `t Ctrl+Alt+C ,ShowConfig
-Menu,Tray,Add,Détection de la version de Jaws `t Ctrl+Alt+D ,FindLastJawsVersion
-Menu,Tray,Add,&Editer le fichier log  `t Ctrl+Alt+L ,EditLogFile
+Menu,Tray,Add,&Configuration `t Ctrl+Maj+C ,ShowConfig
+Menu,Tray,Add,Détection de la version de Jaws `t Ctrl+Maj+D ,FindLastJawsVersion
+Menu,Tray,Add,&Editer le fichier log  `t Ctrl+Maj+L ,EditLogFile
 Menu,Tray,Add,&Aide,HELP
 Menu,Tray,Add,&A propos,ABOUT
 Menu,Tray,Add,
@@ -116,15 +116,17 @@ return
 return
 
 ; Ouvre la boîte de dialogue de configuration
-^!c::
+^+c::
 	Gosub ShowConfig
 return
 
 ; Editer le fichier log
-^!l::
+^+l::
 	Gosub EditLogFile
 return
-^!d::	
+
+; Détecter et choisir la version de jaws installé qu'on utilise
+^+d::	
 	Gosub FindLastJawsVersion
 return
 
