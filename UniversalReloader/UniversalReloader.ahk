@@ -1,4 +1,4 @@
-Version = 0.5.1
+Version = 0.5.2
 NomDuScript =  UniversalReloader  %Version%
 
 ; début du programme
@@ -57,6 +57,7 @@ Menu,Tray,Add,&Relancer un lecteur d'écran `t %ShowReloadKey%,SRReload
 Menu,Tray,Add,Relancer Mozilla Firefox `t %ShowReloadFfKey%,ReloadFf
 Menu,Tray,Add,
 Menu,Tray,Add,&Configuration `t Ctrl+Alt+C ,ShowConfig
+Menu,Tray,Add,Détection de la version de Jaws `t Ctrl+Alt+D ,FindLastJawsVersion
 Menu,Tray,Add,&Editer le fichier log  `t Ctrl+Alt+L ,EditLogFile
 Menu,Tray,Add,&Aide,HELP
 Menu,Tray,Add,&A propos,ABOUT
@@ -78,7 +79,7 @@ Menu,Tray,Add,&Quitter `t Ctrl+Alt+F4,QuitApp
   Gui, 1:Add, Button, gBrowsNvdaApp x290 y58 w90 h20, Parcourrir  
   Gui, 1:Add, GroupBox, x40 y108 w350 h70, Choix de la version de jaws
   Gui, 1:Add, Text, x60 y138 w220 h20, Choisissez la version de jaws :  
-  Gui, 1:Add, ListBox, vSetJawsVersion x300 y138 w60 h20 vscroll , 10||11|12|13|14|15
+  Gui, 1:Add, ListBox, vSetJawsVersion x300 y138 w60 h20 vscroll , 10||11|12|13|14|15|16
   Gui, 1:Add, GroupBox, x40 y188 w350 h70, Si jaws et nvda sont démarrés ?
   Gui, 1:Add, Text, x60 y210 w228 h20, Choisissez lequel arrêter :  
   Gui, 1:Add, ListBox, vSetNvdaAndJaws x300 y218 w60 h20 vscroll , nvda||jaws
@@ -122,6 +123,9 @@ return
 ; Editer le fichier log
 ^!l::
 	Gosub EditLogFile
+return
+^!d::	
+	Gosub FindLastJawsVersion
 return
 
 ;-----------------------------------------------------------------------------
@@ -199,24 +203,29 @@ ShowConfig:
    GuiControl, 1: , FirefoxPath, %GetFirefoxDir%
    if GetJawsVersion = 11
    {
-      GuiControl, 1: , SetJawsVersion, 10|11||12|13|14|15   
+      GuiControl, 1: , SetJawsVersion, 10|11||12|13|14|15|16
    }
    else if GetJawsVersion = 12
    {
-      GuiControl, 1: , SetJawsVersion, 10|11|12||13|14|15      
+      GuiControl, 1: , SetJawsVersion, 10|11|12||13|14|15|16
    }
    else if GetJawsVersion = 13
    {
-      GuiControl, 1: , SetJawsVersion, 10|11|12|13||14|15      
+      GuiControl, 1: , SetJawsVersion, 10|11|12|13||14|15|16      
    }
    else if GetJawsVersion = 14
    {
-      GuiControl, 1: , SetJawsVersion, 10|11|12|13|14||15      
+      GuiControl, 1: , SetJawsVersion, 10|11|12|13|14||15|16      
    }
    else if GetJawsVersion = 15
    {
-      GuiControl, 1: , SetJawsVersion, 10|11|12|13|14|15||
+      GuiControl, 1: , SetJawsVersion, 10|11|12|13|14|15||16
    }
+   lse if GetJawsVersion = 16
+   {
+      GuiControl, 1: , SetJawsVersion, 10|11|12|13|14|15|16||
+   }
+   
    
    if GetNvdaAndJaws = nvda
    {
@@ -334,7 +343,7 @@ Return
 
 ValideConfig:
 
-	 Gui, 1:Submit
+  Gui, 1:Submit
 
   ;remettre les anciennes valeurs à zéro
   GetCtrl =
@@ -629,6 +638,66 @@ LoadJaws:
 	
 Return
 
+;-----------------------------------------------------------------------------------------------------------------------------
+
+; sub qui détecte la dernière version de jaws installé
+
+FindLastJawsVersion:
+	Loop, HKEY_LOCAL_MACHINE, SOFTWARE\Freedom Scientific\JAWS, 2, 1
+	{
+		if A_LoopRegName = 10.0
+		{
+			LastJawsVersion = 10
+			Msgbox, 4, , , Jaws version %LastJawsVersion% à été détecté sur votre ordinateur, voulez-vous utiliser cette version ?
+			IfMsgBox, YES, break
+		}
+		else if A_LoopRegName = 11.0
+		{
+			LastJawsVersion = 11
+			Msgbox, 4, , , Jaws version %LastJawsVersion% à été détecté sur votre ordinateur, voulez-vous utiliser cette version ?
+			IfMsgBox, YES, break
+		}
+		else if A_LoopRegName = 12.0
+		{
+			LastJawsVersion = 12
+			Msgbox, 4, , , Jaws version %LastJawsVersion% à été détecté sur votre ordinateur, voulez-vous utiliser cette version ?
+			IfMsgBox, YES, break
+		}
+		else if A_LoopRegName = 13.0
+		{
+			LastJawsVersion = 13
+			Msgbox, 4, , , Jaws version %LastJawsVersion% à été détecté sur votre ordinateur, voulez-vous utiliser cette version ?
+			IfMsgBox, YES, break
+		}
+		else if A_LoopRegName = 14.0
+		{
+			LastJawsVersion = 14
+			Msgbox, 4, , , Jaws version %LastJawsVersion% à été détecté sur votre ordinateur, voulez-vous utiliser cette version ?
+			IfMsgBox, YES, break			
+		}
+		else if A_LoopRegName = 15.0
+		{
+			LastJawsVersion = 15
+			Msgbox, 4, , , Jaws version %LastJawsVersion% à été détecté sur votre ordinateur, voulez-vous utiliser cette version ?
+			IfMsgBox, YES, break
+		
+		}
+		else if A_LoopRegName = 16.0
+		{
+			LastJawsVersion = 16
+		}
+		else
+		{
+			MsgBox, Aucune version de jaws n'est installé sur votre ordinateur
+		}
+	}
+	SetJawsVersion = %LastJawsVersion%
+	GetJawsVersion = %SetJawsVersion%	
+	Msgbox, La version de Jaws que vous utilisez est Jaws version %GetJawsVersion% 
+	Gosub SetToIniFile           						;lance la sub qui écrit les valeurs choisits dans le fichier ini
+    Sleep 3000											; attends 3 segondes   
+    Gosub GetFromIniFile        							; Recharge les valeurs à partir du nouveau fichier ini
+Return
 
 ;---------------------------------------------------------------------------------
 ; lance nvda
