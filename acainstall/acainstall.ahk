@@ -11,8 +11,8 @@ Gui, Margin, 5, 5
 ; Choix de la police d'affichage du logiciel et de sa taille
 Gui, Font, S12 CDefault, Arial
 
-Gui, Add, Text, x30 y40 w150 h40, Installation d'acapella4 :
-Gui, Show, w300 h70, acainstaller 1.0
+Gui, Add, Text, x30 y30 w250 h40, Installation d'acapella4 ...
+Gui, Show, w400 h70, acainstaller 1.0
 
 Run, infovox4demo.exe, C:\Acapela4, hide
 Sleep, 3000
@@ -23,14 +23,18 @@ Sleep, 3000
 MsgBox, 4, , Voulez-vous installer l'extenssion pour nvda ? (attention nvda doit être lancé)
 IfMsgBox, No									; si le choix est non, on sort de la fonction
 {
+	GoSub GuiClose
 	return
 }
 else										    ; si l'utilisateur a répondu oui 
 {
 	RunWait, Acapela Infovox4-driver.nvda-addon, C:\Acapela4, hide
+	GoSub GuiClose
 }
-Sleep, 3000
 
-Gui, cancel
-GuiEscape:
-ExitApp
+
+
+GuiClose:  
+   Gui, cancel
+   GuiEscape:
+   ExitApp
