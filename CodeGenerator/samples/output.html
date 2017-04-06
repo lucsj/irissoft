@@ -1,0 +1,27 @@
+<html><head></head><body><table><tr><td>
+Item ID: 1001<br>
+Item Name: widgit<br>
+Amount: $1.00<br>
+Shipping : 1<br>
+Option 1 Red<br>
+Description: For sale we have widgets, this is widget 1<br>
+<br>
+<img src="">
+</td><td>
+<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_cart">
+<input type="hidden" name="business" value="test@test.com">
+<input type="hidden" name="lc" value="US">
+<input type="hidden" name="item_name" value="">
+<input type="hidden" name="item_number" value="">
+<input type="hidden" name="amount" value="">
+<input type="hidden" name="currency_code" value="USD">
+<input type="hidden" name="button_subtype" value="products">
+<input type="hidden" name="tax_rate" value="">
+<input type="hidden" name="shipping" value="">
+<input type="hidden" name="add" value="1">
+<input type="hidden" name="bn" value="PP-ShopCartBF:btn_cart_LG.gif:NonHostedGuest">
+<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_cart_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+</form>
+</td></tr></table></body></html>
