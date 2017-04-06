@@ -140,6 +140,8 @@ return
    Escape::
         Gosub close
    return
+   BS::
+		Gosub ShowMsgGui
 #IfWinActive
 
 
@@ -559,12 +561,9 @@ Hex(ByRef b, n=0)                   ; n bytes data -> stream of 2-digit hex
 
 
 
-
-
-
-
-
-
+ShowMsgGui:
+	MsgBox, %A_GuiControl%
+Return
 
 
 

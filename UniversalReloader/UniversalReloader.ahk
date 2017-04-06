@@ -497,7 +497,7 @@ GetFromIniFile:
     ; vérification de l'existance du fichier ini
     IfExist, %ScriptIni%
     {
-		IniRead GetFirefoxDir, %ScriptIni%, Options, FirefoxDir, False   ; lis le dossier de firefox dans le fichier ini
+	IniRead GetFirefoxDir, %ScriptIni%, Options, FirefoxDir, False   ; lis le dossier de firefox dans le fichier ini
         IniRead GetNvdaDir, %ScriptIni%, Options, NvdaDir, False		; lis et met dans la variable GetNvdaDir le dossier oû nvda est installé
         IniRead GetNvdaAndJaws,  %ScriptIni%, Options, NvdaAndJaws, False	; lis l'option qui dit quel lecteur d'écran arrêté quand les deux fonctionnent
         IniRead GetJawsVersion, %ScriptIni%, Options, JawsVersion, False	; lis la version de jaws qui servira à relancer jaws
